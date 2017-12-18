@@ -79,6 +79,17 @@
             "main": "aurelia-testing",
             "env": "dev"
           },
+          "jquery",
+          {
+            "name": "bootstrap",
+            "path": "../node_modules/bootstrap/dist",
+            "main": "js/bootstrap.min",
+            "deps": ["jquery"],
+            "exports": "$",
+            "resources": [
+              "css/bootstrap.css"
+            ]
+          },
           "text"
         ]
       }
@@ -94,7 +105,7 @@
             ".html",
             ".css"
           ],
-          "stub": true
+          "stub": false
         }
       ]
     }
@@ -127,7 +138,7 @@
     "id": "sass",
     "displayName": "Sass",
     "fileExtension": ".scss",
-    "source": "src/**/*.scss"
+    "source": "src/**/*.scss, src/**/*.sass, src/**/*.css"
   },
   "editor": {
     "id": "atom",
