@@ -9,3 +9,7 @@ export class ContactViewed {
     this.contact = contact
   }
 }
+
+export class ContactNotSelected {
+  constructor() {}
+}
