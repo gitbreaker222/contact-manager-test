@@ -1,6 +1,10 @@
 {
   "extends": "./node_modules/aurelia-tools/.eslintrc.json",
   "rules": {
-    "semi": ["warn", "never"]
+    "semi": ["warn", "never"],
+    "no-console": ["warn", {
+      "allow": ["warn", "error", "info"]
+      }
+    ]
   }
 }
