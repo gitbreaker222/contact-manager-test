@@ -33,6 +33,7 @@ export class ContactDetail {
       })
       .catch(error => {
         console.error(error)
+        console.info('…will reroute now')
         this.router.navigateToRoute('home')
       })
     }
