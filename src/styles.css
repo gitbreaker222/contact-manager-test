@@ -27,6 +27,8 @@ a:focus {
 }
 
 .button-bar {
+  display: flex;
+  justify-content: flex-end;
   right: 0;
   left: 0;
   bottom: 0;
@@ -35,7 +37,6 @@ a:focus {
 }
 
 .button-bar > button {
-  float: right;
   margin: 20px;
 }
 
