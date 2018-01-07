@@ -64,10 +64,14 @@ export class WebAPI {
 
   getContactDetails(id) {
     this.isRequesting = true
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
         let found = contacts.filter(x => x.id == id)[0]
-        resolve(JSON.parse(JSON.stringify(found)))
+        if (found) {
+          resolve(JSON.parse(JSON.stringify(found)))
+        } else {
+          reject(new Error(id + ': not found'))
+        }
         this.isRequesting = false
       }, latency)
     })

@@ -15,6 +15,9 @@ export class ContactDetail {
     this.api = api
     this.events = events
     this.router = router
+
+    this.originalContact = {}
+    this.contact = {}
   }
 
   activate(params, routeConfig) {
@@ -27,6 +30,10 @@ export class ContactDetail {
         this.routeConfig.navModel.setTitle(contact.firstName)
         this.originalContact = JSON.parse(JSON.stringify(contact))
         this.events.publish(new ContactViewed(this.contact))
+      })
+      .catch(error => {
+        console.error(error)
+        this.router.navigateToRoute('home')
       })
     }
 
