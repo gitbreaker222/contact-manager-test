@@ -2,6 +2,7 @@ import {inject} from 'aurelia-framework'
 import {EventAggregator} from 'aurelia-event-aggregator'
 import {WebAPI} from './web-api'
 import {
+  ContactCreated,
   ContactUpdated,
   ContactViewed,
   ContactNotSelected
@@ -16,6 +17,7 @@ export class ContactList {
 
     events.subscribe(ContactViewed, message => this.select(message.contact))
     events.subscribe(ContactNotSelected, message => this.unSelect())
+    events.subscribe(ContactCreated, message => this.created(message.contact))
     events.subscribe(ContactUpdated, message => {
       let id = message.contact.id
       let found = this.contacts.find(contact => contact.id === id)
@@ -23,9 +25,12 @@ export class ContactList {
     })
   }
 
-  created() {
+  created(contact) {
     this.api.getContactList()
-    .then(contacts => this.contacts = contacts)
+    .then(contacts => {
+      this.contacts = contacts
+      this.select(contact)
+    })
   }
 
   select(contact) {

@@ -16,6 +16,12 @@ export class App {
         title: 'Select'
       },
       {
+        route: 'contacts/create',
+        moduleId: 'contact-detail',
+        name: 'contactCreate',
+        title: 'Create'
+      },
+      {
         route: 'contacts/:id',
         moduleId: 'contact-detail',
         name: 'contacts'
