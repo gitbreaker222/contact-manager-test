@@ -11,8 +11,9 @@ export class App {
     config.title = 'Contacts'
     config.map([
       {
-        route: '',
+        route: ['', 'home'],
         moduleId: 'no-selection',
+        name: 'home',
         title: 'Select'
       },
       {
@@ -27,6 +28,8 @@ export class App {
         name: 'contacts'
       }
     ])
+
+    config.fallbackRoute('home')
 
     this.router = router
   }
