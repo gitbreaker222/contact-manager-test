@@ -50,6 +50,9 @@
   </div>
 
   <div class="button-bar">
+    <button class="btn btn-danger"
+            click.delegate="delete()"
+            disabled.bind="!canDelete">Delete</button>
     <button class="btn btn-success"
             click.delegate="save()"
             disabled.bind="!canSave">Save</button>

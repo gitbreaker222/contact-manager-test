@@ -1,3 +1,12 @@
+import {inject} from 'aurelia-framework'
+import {EventAggregator} from 'aurelia-event-aggregator'
+import {
+  //ContactCreated,
+  ContactDeleted
+  //ContactUpdated,
+  //ContactViewed
+} from './messages'
+
 let latency = 200
 let id = 0
 
@@ -43,7 +52,12 @@ let contacts = [
   }
 ]
 
+@inject(EventAggregator)
 export class WebAPI {
+  constructor(events) {
+    this.events = events
+  }
+
   isRequesting = false;
 
   getContactList() {
@@ -94,6 +108,21 @@ export class WebAPI {
 
         this.isRequesting = false
         resolve(instance)
+      }, latency)
+    })
+  }
+
+  deleteContact(contact) {
+    this.isRequesting = true
+    return new Promise(resolve => {
+      setTimeout(() => {
+        let filteredCollection = contacts.filter(x => x.id !== contact.id)
+        contacts = filteredCollection
+
+        this.isRequesting = false
+
+        this.events.publish(new ContactDeleted(filteredCollection, contact))
+        resolve(filteredCollection, contact)
       }, latency)
     })
   }

@@ -5,7 +5,8 @@ import {EventAggregator} from 'aurelia-event-aggregator'
 import {
   ContactCreated,
   ContactUpdated,
-  ContactViewed
+  ContactViewed,
+  ContactDeleted
 } from './messages'
 import {areEqual} from './utility'
 
@@ -18,6 +19,10 @@ export class ContactDetail {
 
     this.originalContact = {}
     this.contact = {}
+
+    events.subscribe(ContactDeleted, message => {
+      this.offerRestore(message.deletedContact)
+    })
   }
 
   activate(params, routeConfig) {
@@ -47,14 +52,22 @@ export class ContactDetail {
     this.originalContact = JSON.parse(JSON.stringify(this.contact))
   }
 
+  _isNew(contact) {
+    return !contact.id
+  }
+
   get canSave() {
     return this.contact.firstName
       && this.contact.lastName
       && !this.api.isRequesting
   }
 
+  get canDelete() {
+    return !this._isNew(this.contact)
+  }
+
   save() {
-    let isNew = !this.contact.id
+    let isNew = this._isNew(this.contact)
 
     this.api.saveContact(this.contact)
     .then(contact => {
@@ -68,6 +81,22 @@ export class ContactDetail {
         this.events.publish(new ContactUpdated(this.contact))
       }
     })
+  }
+
+  delete() {
+    this.api.deleteContact(this.contact)
+    this.contact = {}
+    this.originalContact = this.contact
+    this.router.navigateToRoute('home')
+  }
+
+  offerRestore(contact) {
+    let result = confirm('Undo?')
+
+    if (result) {
+      this.contact = contact
+      this.save()
+    }
   }
 
   canDeactivate() {

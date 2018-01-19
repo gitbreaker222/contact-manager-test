@@ -4,6 +4,13 @@ export class ContactCreated {
   }
 }
 
+export class ContactDeleted {
+  constructor(newCollection, deletedContact) {
+    this.newCollection = newCollection
+    this.deletedContact = deletedContact
+  }
+}
+
 export class ContactUpdated {
   constructor(contact) {
     this.contact = contact
