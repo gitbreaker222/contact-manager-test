@@ -5,8 +5,7 @@ import {EventAggregator} from 'aurelia-event-aggregator'
 import {
   ContactCreated,
   ContactUpdated,
-  ContactViewed,
-  ContactDeleted
+  ContactViewed
 } from './messages'
 import {areEqual} from './utility'
 
@@ -19,10 +18,6 @@ export class ContactDetail {
 
     this.originalContact = {}
     this.contact = {}
-
-    events.subscribe(ContactDeleted, message => {
-      this.offerRestore(message.deletedContact)
-    })
   }
 
   activate(params, routeConfig) {
@@ -88,15 +83,6 @@ export class ContactDetail {
     this.contact = {}
     this.originalContact = this.contact
     this.router.navigateToRoute('home')
-  }
-
-  offerRestore(contact) {
-    let result = confirm('Undo?')
-
-    if (result) {
-      this.contact = contact
-      this.save()
-    }
   }
 
   canDeactivate() {

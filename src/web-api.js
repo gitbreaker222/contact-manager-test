@@ -1,7 +1,7 @@
 import {inject} from 'aurelia-framework'
 import {EventAggregator} from 'aurelia-event-aggregator'
 import {
-  //ContactCreated,
+  ContactCreated,
   ContactDeleted
   //ContactUpdated,
   //ContactViewed
@@ -56,6 +56,12 @@ let contacts = [
 export class WebAPI {
   constructor(events) {
     this.events = events
+
+    events.subscribe(ContactDeleted, message => {
+      setTimeout(() => {
+        this.offerRestore(message.deletedContact)
+      }, 700)
+    })
   }
 
   isRequesting = false;
@@ -107,6 +113,7 @@ export class WebAPI {
         }
 
         this.isRequesting = false
+        //event
         resolve(instance)
       }, latency)
     })
@@ -125,5 +132,14 @@ export class WebAPI {
         resolve(filteredCollection, contact)
       }, latency)
     })
+  }
+
+  offerRestore(contact) {
+    let result = confirm('Contact deleted. Undo?')
+
+    if (result) {
+      this.contact = contact
+      this.saveContact(contact)
+    }
   }
 }
